@@ -1,0 +1,12 @@
+.venv/
+third_party/
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+ros2_ws/src/ManusSDK/
+ros2_ws/src/manus_ros2/
+ros2_ws/src/manus_ros2_msgs/
+__pycache__/
+*.pyc
+*.log
+*.mcal

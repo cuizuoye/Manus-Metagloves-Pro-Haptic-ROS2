@@ -1,0 +1,46 @@
+--- a/manus_ros2/src/ManusDataPublisher.hpp
++++ b/manus_ros2/src/ManusDataPublisher.hpp
+@@ -127,8 +127,8 @@
+     static ManusDataPublisher *s_Instance;
+     
+     //Connection type in case of remote m_IP is used, if empty auto discovery is used
+-    ConnectionType m_ConnectionType = ConnectionType::ConnectionType_Integrated;
+-    std::string m_Ip = "";
++    ConnectionType m_ConnectionType = ConnectionType::ConnectionType_Remote;
++    std::string m_Ip = "<WINDOWS_CORE_IP>";
+     
+     //Coordinate system settings
+     bool m_WorldSpace = true;
+--- a/manus_ros2/src/ManusDataPublisher.cpp
++++ b/manus_ros2/src/ManusDataPublisher.cpp
+@@ -486,6 +486,7 @@
+     bool t_Autoconnect = m_Ip.empty();
+ 
+     uint32_t t_HostSelection = 0;
++    bool t_HostMatched = t_Autoconnect;
+     if (t_Autoconnect && t_NumberOfHostsFound != 0)
+     {
+         ClientLog::print("Autoconnecting to the first host found.");
+@@ -501,14 +502,21 @@
+             if (hostIp == m_Ip)
+             {
+                 t_HostSelection = i;
++                t_HostMatched = true;
+                 break;
+             }
+         }
+     }
+ 
++    if (!t_HostMatched)
++    {
++        ClientLog::error("Requested MANUS Core IP was not found; refusing to select another host.");
++        return ClientReturnCode::ClientReturnCode_FailedToFindHosts;
++    }
++
+     SDKReturnCode t_ConnectResult = CoreSdk_ConnectToHost(t_AvailableHosts[t_HostSelection]);
+ 
+-    if (t_ConnectResult == SDKReturnCode::SDKReturnCode_NotConnected)
++    if (t_ConnectResult != SDKReturnCode::SDKReturnCode_Success)
+     {
+         return ClientReturnCode::ClientReturnCode_FailedToConnect;
+     }

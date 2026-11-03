@@ -1,0 +1,41 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Plane: XY
+      Cell Size: 0.1
+      Plane Cell Count: 20
+    - Class: rviz_default_plugins/MarkerArray
+      Name: MANUS Skeletons
+      Enabled: true
+      Topic:
+        Value: /manus_viz/markers
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Depth: 10
+  Global Options:
+    Background Color: 32; 36; 43
+    Fixed Frame: manus_view
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 1.2
+      Focal Point:
+        X: 0.1
+        Y: 0.15
+        Z: 0.0
+      Pitch: 0.8
+      Yaw: 0.8
+Window Geometry:
+  Width: 1200
+  Height: 800
